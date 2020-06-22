@@ -1,0 +1,7 @@
+saveNoteBtn --> call handleNoteSave --> this button create newNote object --> 
+Get the value of the title and the note -- > send newNote as a parameter to saveNote
+function --> POST method to save in the /api/notes (save it in the array) --> .then
+call getAndRenderNotes function --> call function getNotes --> from the /api/notes
+get the array of notes json object --> .then call renderNoteList funciton --> render
+only the title of the notes; 
+

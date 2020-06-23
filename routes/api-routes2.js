@@ -10,34 +10,35 @@ module.exports = function (app) {
     app.post("/api/notes",(req,res)=>{
         let allNotes = JSON.parse(fs.readFileSync("./Develop/db/db.json")); //Notes from the json db file.
 
-        //console.log(allNotes);
+        console.log(typeof allNotes);
+        console.log("allNotes in JSON format",allNotes);
 
         let newNote = req.body;
 
         newNote.id = newNote.title.replace(/\s+/g, "").toLowerCase();
 
-        //console.log(newNote);
-
         allNotes.push(newNote);
 
         fs.writeFileSync("./Develop/db/db.json",JSON.stringify(allNotes));
-        console.log(allNotes);
+        console.log("allNotes with the new note",allNotes);
+        console.log(typeof allNotes);
         res.json(allNotes);
     });
 
 
-    /*app.delete("/api/notes/:id", (req,res) => {
-        let chosen = req.params.id;
+    app.delete("/api/notes/:id", (req,res) => {  //:id parameter??  id is parameter available in this route because you are specifying it
+        let uniqueID = req.params.id;
 
+        let notes = JSON.parse(fs.readFileSync("./Develop/db/db.json"));
         console.log(notes);
-        //console.log(chosen);
-        //console.log(notes[1].id);
 
-        let deleteID = notes.filter((notes)=>{
-            return notes.id === chosen;
-        })
+        let remainingNotes = notes.filter(n => n.id !== uniqueID);
+        console.log("NoteDeleted",remainingNotes);
 
-        console.log("NoteToDelete", deleteID);
-        res.json(deleteID);
-    });*/
+        fs.writeFileSync("./Develop/db/db.json",JSON.stringify(remainingNotes));
+        console.log("new Notes",remainingNotes);
+        res.json(remainingNotes);
+    });
 }
+
+//req.body --> all parameters in the content are sent in the body of the request
